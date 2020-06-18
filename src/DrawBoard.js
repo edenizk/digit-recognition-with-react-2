@@ -34,7 +34,7 @@ class DrawBoard extends Component {
       console.log("getting imagge...")
 
       // preprocess canvas
-      let tensor = this.preprocessCanvas(myCanvas);
+      let tensor = await this.preprocessCanvas(myCanvas);
       console.log("tensor...")
 
       // make predictions on the preprocessed image tensor
@@ -58,9 +58,9 @@ class DrawBoard extends Component {
       })
     }
 
-    preprocessCanvas(image) {
+    async preprocessCanvas(image) {
       // resize the input image to target size of (1, 28, 28)
-      let tensor = tf.browser.fromPixels(image)
+      let tensor = await tf.browser.fromPixels(image)
           .resizeNearestNeighbor([28, 28])
           .mean(2)
           .expandDims(2)
