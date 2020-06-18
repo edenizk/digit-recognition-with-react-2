@@ -8,36 +8,43 @@ class DrawBoard extends Component {
     constructor(props){
       super(props)
 
+      this.state = {
+        color: "#ffc600",
+        width: 300,
+        height: 300,
+        brushRadius: 5,
+        lazyRadius: 1,
+        model: undefined,
+        prediction: null,
+        confidence: null,
+        answer: null,
+      };
+
       this.loadModel();
     }
 
-    state = {
-      color: "#ffc600",
-      width: 300,
-      height: 300,
-      brushRadius: 5,
-      lazyRadius: 1,
-      model: undefined,
-      prediction: null,
-      confidence: null,
-      answer: null,
-    };
+   
 
 
     async recognize() {
+      console.log("recognizing...")
       let myCanvas = document.querySelectorAll('canvas')[1]
       // get image data from canvas
       var imageData = myCanvas.toDataURL();
-  
+      console.log("getting imagge...")
+
       // preprocess canvas
       let tensor = this.preprocessCanvas(myCanvas);
-  
+      console.log("tensor...")
+
       // make predictions on the preprocessed image tensor
       let predictions = await this.state.model.predict(tensor).data();
-  
+      console.log("prediction...")
+
       // get the model's prediction results
       let results = Array.from(predictions);
-  
+      console.log("result...")
+
       // display the predictions in chart
       // displayChart(results);
       this.displayLabel(results);
@@ -78,8 +85,7 @@ class DrawBoard extends Component {
       answer: Math.trunc( max*100 ) !== 100 ? "I am guesing that you draw " + maxIndex + "but I am sure like " + Math.trunc( max*100 ) + "%" : "Is this your number?: " +  maxIndex,
     })
     console.log("Predicting you draw " + maxIndex + " with " + Math.trunc( max*100 ) + " confidence")
-
-}
+  }
 
     render(){
       return (
